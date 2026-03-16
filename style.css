@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Event Registration</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f2f2f2;
+margin:0;
+padding:0;
+}
+
+.container{
+width:75%;
+margin:auto;
+background:white;
+padding:25px;
+margin-top:20px;
+}
+
+h1,h2{
+text-align:center;
+}
+
+label{
+font-weight:bold;
+}
+
+input,select{
+width:100%;
+padding:8px;
+margin:6px 0 12px 0;
+}
+
+input[type="radio"]{
+width:auto;
+}
+
+button{
+padding:10px 20px;
+background:blue;
+color:white;
+border:none;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:darkblue;
+}
+
+.error{
+border:2px solid red;
+}
+
+.valid{
+border:2px solid green;
+}
+
+.success{
+color:green;
+font-weight:bold;
+text-align:center;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+
+th{
+background:#007bff;
+color:white;
+}
+
+tr:nth-child(even){
+background:#f9f9f9;
+}
+
+footer{
+text-align:center;
+margin-top:20px;
+padding:10px;
+background:#222;
+color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Event Registration</h1>
+
+<form id="registrationForm">
+
+<label>Name</label>
+<input type="text" id="name">
+
+<label>Email</label>
+<input type="email" id="email">
+
+<label>Phone</label>
+<input type="text" id="phone">
+
+<label>Date of Birth</label>
+<input type="date" id="dob">
+
+<label>Gender</label>
+<br>
+<input type="radio" name="gender" value="Male"> Male
+<input type="radio" name="gender" value="Female"> Female
+<br><br>
+
+<label>Select Event</label>
+<select id="event">
+<option value="">Select Event</option>
+<option>Web Development Workshop</option>
+<option>AI Seminar</option>
+<option>Hackathon</option>
+</select>
+
+<label>Mode of Participation</label>
+<br>
+<input type="radio" name="mode" value="Online"> Online
+<input type="radio" name="mode" value="Offline"> Offline
+<br><br>
+
+<label>College / Company</label>
+<input type="text" id="college">
+
+<br>
+
+<input type="checkbox" id="confirm">
+I confirm that the above details are correct.
+
+<br><br>
+
+<button type="submit">Submit</button>
+<button type="reset">Reset</button>
+
+</form>
+
+<p id="successMessage" class="success"></p>
+
+<h2>Registered Participants</h2>
+
+<table id="participantsTable">
+
+<tr>
+<th>Name</th>
+<th>Email</th>
+<th>Phone</th>
+<th>Event</th>
+<th>Mode</th>
+</tr>
+
+</table>
+
+<footer>
+Contact: events@college.edu
+</footer>
+
+</div>
+
+<script>
+
+const form = document.getElementById("registrationForm");
+const table = document.getElementById("participantsTable");
+const message = document.getElementById("successMessage");
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+let name = document.getElementById("name");
+let email = document.getElementById("email");
+let phone = document.getElementById("phone");
+let dob = document.getElementById("dob");
+let event = document.getElementById("event");
+let college = document.getElementById("college");
+let confirmBox = document.getElementById("confirm");
+
+let gender = document.querySelector('input[name="gender"]:checked');
+let mode = document.querySelector('input[name="mode"]:checked');
+
+let valid = true;
+
+function validateField(field){
+if(field.value.trim()==""){
+field.classList.add("error");
+valid=false;
+}else{
+field.classList.remove("error");
+field.classList.add("valid");
+}
+}
+
+validateField(name);
+validateField(email);
+validateField(phone);
+validateField(dob);
+validateField(event);
+validateField(college);
+
+if(phone.value.length != 10){
+alert("Phone number must be 10 digits");
+phone.classList.add("error");
+valid=false;
+}
+
+if(!gender){
+alert("Please select gender");
+valid=false;
+}
+
+if(!mode){
+alert("Please select mode of participation");
+valid=false;
+}
+
+if(!confirmBox.checked){
+alert("Please confirm that the details are correct");
+valid=false;
+}
+
+if(valid){
+
+let row = table.insertRow();
+
+row.insertCell(0).innerText = name.value;
+row.insertCell(1).innerText = email.value;
+row.insertCell(2).innerText = phone.value;
+row.insertCell(3).innerText = event.value;
+row.insertCell(4).innerText = mode.value;
+
+message.innerText = "Registration Successful!";
+
+setTimeout(function(){
+message.innerText = "";
+},3000);
+
+form.reset();
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
